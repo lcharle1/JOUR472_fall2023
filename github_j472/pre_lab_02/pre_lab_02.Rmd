@@ -300,7 +300,7 @@ standardized_maryland_expenses <- maryland_expenses |>
 
 **Task** Search the Internet for tidyverse functions similar to str_to_upper. Name at least two and describe what they do. If you use ChatGPT for this, include the question you submitted.
 
-**Answer:** Similar #1: str_to_title. The entire word is now turning into uppercase but now you're about to go to sleep. Similar: #2 str_to_replace. It is also not the whole word being uppercased, but it also is trying to look herself and look less like a common citizen.
+**Answer:** Similar #1: str_to_title. The entire word is now turning into uppercase but now you're about to go to sleep. Similar: #2 str_to_replace. It is also not the whole word being uppercased, but it also is trying to look herself and look less like a common citizen. And I credit chatgpt to the last similarity.
 
 There are lots of potential uses for standardization - addresses, zip codes, anything that can be misspelled or abbreviated.
 
