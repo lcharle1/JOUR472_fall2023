@@ -39,7 +39,7 @@ umd_courses <- read_rds("lab_01.rds")
 
 ## Answer questions
 
-**Q1** Which department has the highest mean (average) number of seats for its classes? You need to show the department with the highest average first. Which one is the most surprising/interesting to you? **A1**
+**Q1** Which department has the highest mean (average) number of seats for its classes? You need to show the department with the highest average first. Which one is the most surprising/interesting to you? **A1 It was interesting to me that engineering, cooperative education was the highest mean number of seats**
 
 ```{r}
 umd_courses |>
@@ -47,33 +47,31 @@ umd_courses |>
   summarise(
     count_classes = n(),
     total_seats = sum(seats),
-    mean_seats = mean(seats)) |>
-    arrange(desc(mean_seats))
+    mean_seats_a = mean(seats)) |>
+    arrange(desc(mean_seats_a))
 ```
 
 **Q2** Find out the greatest number of times any individual class has been offered in our dataset. Your code must show the greatest number of classes first. **A2**
 
 ```{r}
 umd_courses |>
-  group_by(term) |>
+  group_by(id) |>
   summarise(
     count_classes = n()
   ) |>
   arrange(desc(count_classes))
 ```
 
-**Q3** Count the number of courses for each instructor and department. Which instructor has taught the most? **A3**
+**Q3** Count the number of courses for each instructor and department. Which instructor has taught the most? **A3 Keith Yearwood**
 
 ```{r}
 umd_courses |>
   group_by(instructors, department) |>
-  summarise(
-    count_classes = n(),
-    total_seats = sum(seats),
+  summarise( courses = n(),
  
 
   ) |>
-  arrange(desc(instructors))
+  arrange(desc(courses)) |> na.omit()
 ```
 
 **Q4** Given the results for Q3, what would have made it easier to find the answer? You don't have to know *how* to accomplish this; I want you to describe in words what would make the answer easier to see. How confident are you that the answer you got is the right one, and why? **A4:** I am moderately confident I got the right answer. Before, my code resulted in the instructors showing up in alphabetical order, but I did not want this so I included the desc() function in the arrange() function. Now my code looks like this, not in alphabetical order, but no way to be sure its in order of the instructor who taught the most. Using the desc() function makes me think I did it correctly but I would think the count_classes column would support my results too, which is why I am not 100% sure. It would be a lot easier if I knew whether the count_classes are supposed to show the amount of classes the instructors taught, and if so how do I make it show that.
