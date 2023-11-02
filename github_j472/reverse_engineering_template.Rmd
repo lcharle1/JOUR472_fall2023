@@ -1,4 +1,5 @@
 ---
+q---
 title: "Reverse Engineering Project"
 author: "Student names here"
 date: "Date here"
@@ -77,13 +78,14 @@ In this notebook, we are reverse engineering five sentences from the story.
 #dc_data <- dc_data|> mutate(percent_female = (100*n()/NROW ("Female Characters")))|> arrange (percent_female)
  
 
-dc_data |>
+dc_appearance_data <- dc_data |>
   group_by(SEX)|>
   summarize(count = n())|>
   mutate(pct_female = count/6896*100)|>
   arrange(desc(pct_female))
+
   
-marvel_data |>
+marvel_appearance_data <- marvel_data |>
   group_by(SEX)|>
   summarize(count = n())|>
   mutate(pct_female = count/16376*100)|>
@@ -92,28 +94,27 @@ marvel_data |>
 
 # Display results of code below this codeblock
 
-view(marvel_data)
-view(dc_data)
+marvel_appearance_data
+dc_appearance_data
 ```
 
 ### Sentence 2
 
 -   **Sentence text**: [Paste in sentence to engineer here]
-    -   Women and men were almost exactly equally likely to have a secret identity in the Marvel universe (49.4 percent of males and 49.5 percent of females), while in the DC universe 51 percent of males had a secret identity and 45 percent of females did. While it\'s not a perfect stand-in, we can also infer that men may be slightly more likely to be superheroes or villains --- rather than just normal, unpowered side characters --- than women in the DC universe. **Explanation:** Of the information they were able to gather, the reporters grouped male characters and female characters, filter through how many had secret identities and who did not, and summarised the results to show us that Marvel has an almost 50-50 ratio, while DC has a 51-45 ratio of male to female characters having a secret identity. 
+    -   Women and men were almost exactly equally likely to have a secret identity in the Marvel universe (49.4 percent of males and 49.5 percent of females), while in the DC universe 51 percent of males had a secret identity and 45 percent of females did. While it's not a perfect stand-in, we can also infer that men may be slightly more likely to be superheroes or villains --- rather than just normal, unpowered side characters --- than women in the DC universe. **Explanation:** Of the information they were able to gather, the reporters grouped male characters and female characters, filter through how many had secret identities and who did not, and summarised the results to show us that Marvel has an almost 50-50 ratio, while DC has a 51-45 ratio of male to female characters having a secret identity. 
 -   **Analysis summary**:
-    -   Of all the superhero's in DC, 14.69% have secret identities. 25.39% are male characters and 9.06% are female characters. This is a drastic difference compared to the sentence in article which states 51 % of males had a secret identity and45% of females did.
+    -   Of all the superhero's in DC, 14.69% have secret identities. 25.39% are male characters and 9.06% are female characters. This is a drastic difference compared to the sentence in article which states 51 % of males had a secret identity and 45% of females did.
     -   In Marvel, of all the suphereos 38.1% of the superheros have a secret identity. According to my code only 9.1% of them are female and 27.5% are male. Compared to the article saying 49.4% of males and 49.5% of females have a secret identity.
 
 ```{r}
 # Put code to reverse engineer sentence here
 
-marvel_data |>
-  filter(str_detect(ID, "Secret Identity"))|>
-  group_by(ID, SEX)|>
-  summarize(count = n()) |>
+marvel_data |> 
+  filter(ID == "Secret Identity")|>
+  group_by(SEX)|>summarize(count = n()) |> 
   mutate(pct_marvel_female_secret_id = count/16376*100)|>
   arrange(pct_marvel_female_secret_id)
-  
+
 dc_data |>
   filter(str_detect(ID, "Secret Identity")) |>
   group_by(ID, SEX)|>
@@ -129,43 +130,111 @@ dc_data |>
 ### Sentence 3
 
 -   **Sentence text**: [Paste in sentence to engineer here]
-    -   Ms. Marvel is one of just 3,599 female characters in Marvel\'s universe. To arrive at that number, I pulled data from the [Marvel](http://marvel.wikia.com/Main_Page) and [DC](http://dc.wikia.com/wiki/Main_Page) Wikia databases.[4](https://fivethirtyeight.com/features/women-in-comic-books/#fn-4) The sites are fan-maintained, so as with any data of this nature, take it with the standard caveat that it\'s only as good as the people updating it.[5](https://fivethirtyeight.com/features/women-in-comic-books/#fn-5) Still, these two sites are the best resources for this kind of information. **Explanation**: In addition to the reports not having reliable or no data at all on genders contributing to sales, they had to turn to fan-maintained data which is not 100% reliable since they are sites created by fans who could have their own agenda or biases. But in the footnote, they mentioned the data used was a python script using both the sites\' APIS and the MediaWiki API. As well as the simplemediawiki python script by Red Hat Inc. and Ian Weller. This is all mentioned to show the different datasets the reporters used and searched through to come up with the results they are using in the article.
--   **Analysis summary**: The results of the total marvel female characters is 3857 and for DC is 1,967. This is more than the number written in the article.
+    -   Ms. Marvel is one of just 3,599 female characters in Marvel's universe. To arrive at that number, I pulled data from the [Marvel](http://marvel.wikia.com/Main_Page) and [DC](http://dc.wikia.com/wiki/Main_Page) Wikia databases.[4](https://fivethirtyeight.com/features/women-in-comic-books/#fn-4) The sites are fan-maintained, so as with any data of this nature, take it with the standard caveat that it's only as good as the people updating it.[5](https://fivethirtyeight.com/features/women-in-comic-books/#fn-5) Still, these two sites are the best resources for this kind of information. **Explanation**: In addition to the reports not having reliable or no data at all on genders contributing to sales, they had to turn to fan-maintained data which is not 100% reliable since they are sites created by fans who could have their own agenda or biases. But in the footnote, they mentioned the data used was a python script using both the sites' APIS and the MediaWiki API. As well as the simplemediawiki python script by Red Hat Inc. and Ian Weller. This is all mentioned to show the different datasets the reporters used and searched through to come up with the results they are using in the article.
+-   **Analysis summary**: The results of the total marvel female characters is 3857. This is more than the number written in the article.
 
 ```{r}
 # Put code to reverse engineer sentence here
 marvel_data |>
   group_by(SEX)|>
-  summarize(count = n()) |>
+  summarize(count = n())
 
 
 # Display results of code below this codeblock
   marvel female characters = 3837
+
 
 ```
 
 ### Sentence 4
 
 -   **Sentence text**: [Paste in sentence to engineer here]
+
+    When we zero in on the 2,415 DC and 3,342 Marvel characters with gender data who appear at least 10 times --- the set of characters that probably gives the most consistent view of what we see on the page --- female characters make up only 30.9 percent of the DC universe and 30.6 percent of the Marvel universe.
+
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
 
+marvel_appearances_greater_10 <- marvel_data|> group_by(SEX, APPEARANCES) |> filter( APPEARANCES >= 10) 
+
+marvel_appearances_greater_10 |> filter(str_detect(SEX, 'Female Characters')) |>group_by(SEX, APPEARANCES >= 10) |>summarize(count = n()) |>mutate(marvel_pct_female_appearances = (count/3342)*100)
+
+dc_appearances_greater_10 <- dc_data |> group_by(SEX, APPEARANCES) |>  filter( APPEARANCES >= 10) 
+
+dc_appearances_greater_10 |> 
+  filter(str_detect(SEX,'Female Characters'))|> 
+  group_by(SEX, APPEARANCES >= 10)|> 
+  summarize(count = n()) |> 
+  mutate(dc_pct_female_appearances = (count/2415)*100)
+  
+  
+
+
+
 # Display results of code below this codeblock
+
+
 
 ```
 
 ### Sentence 5
 
 -   **Sentence text**: [Paste in sentence to engineer here]
+
+    When we focus on only the most frequently appearing characters in each universe --- the stars of the show --- the data changes. Of characters with gender data and 100 or more appearances (294 DC characters and 414 Marvel characters), only 29.0 percent of DC's are female, and a similar 31.1 percent of the Marvel crowd is
+
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
 
+marvel_appearances_greater_10 <- marvel_data|> group_by(SEX, APPEARANCES) |> filter( APPEARANCES >= 100) 
+
+marvel_appearances_greater_10 |> filter(str_detect(SEX, 'Female Characters')) |>group_by(SEX, APPEARANCES >= 100) |>summarize(count = n()) |>mutate(marvel_pct_female_appearances = (count/3342)*100)
+
+dc_appearances_greater_10 <- dc_data |> group_by(SEX, APPEARANCES) |>  filter( APPEARANCES >= 100) 
+
+dc_appearances_greater_10 |> 
+  filter(str_detect(SEX,'Female Characters'))|> 
+  group_by(SEX, APPEARANCES >= 100)|> 
+  summarize(count = n()) |> 
+  mutate(dc_pct_female_appearances = (count/2415)*100)
+
 # Display results of code below this codeblock
 
+
+    
+
+```
+
+### Visualization Chart - Sentence 1
+
+```{r}
+dc_appearance_data |>
+   ggplot() +
+  geom_bar(aes(x= SEX , weight=count)) +
+  coord_flip() + 
+  theme_clean() +
+  labs(
+    title="Number of Appearances of DC Characters by Gender",
+    x = "Gender",
+    y = "Count",
+    caption = "source: Walt Hickey")
+```
+
+```{r}
+marvel_appearance_data |>
+   ggplot() +
+  geom_bar(aes(x= SEX , weight=count)) +
+  coord_flip() + 
+  theme_clean() +
+  labs(
+    title="Number of Appearances of Marvel Characters by Gender",
+    x = "Gender",
+    y = "Count",
+    caption = "source: Walt Hickey")
 ```
 
 -30-
