@@ -152,7 +152,7 @@ marvel_data |>
 
     When we zero in on the 2,415 DC and 3,342 Marvel characters with gender data who appear at least 10 times --- the set of characters that probably gives the most consistent view of what we see on the page --- female characters make up only 30.9 percent of the DC universe and 30.6 percent of the Marvel universe.
 
--   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
+-   **Analysis summary**: The code is very similar with a result of 30.55% appearance of female for the DC data. The Marvel data is at30.04% which is also very similar.
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -185,7 +185,7 @@ dc_appearances_greater_10 |>
 
     When we focus on only the most frequently appearing characters in each universe --- the stars of the show --- the data changes. Of characters with gender data and 100 or more appearances (294 DC characters and 414 Marvel characters), only 29.0 percent of DC's are female, and a similar 31.1 percent of the Marvel crowd is
 
--   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
+-   **Analysis summary**: The numbers are extremely skewed from one another. The code that we processed was a DC appearance of 3.51 %, whereas Marvel was 3.83%. This is a large abnormality in the data.
 
 ```{r}
 # Put code to reverse engineer sentence here
