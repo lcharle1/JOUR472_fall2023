@@ -107,4 +107,23 @@ zipcode_most_and_why <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
   arrange(desc(Amount))
 
 zipcode_most_and_why
+
+
+```
+
+**3.How has the amount of grants and loans handed out changed over time?**
+
+```{r}
+number_loans_overtime <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |>
+  group_by(`Fiscal Year`)|>
+  summarize(Number_Given = n())
+
+amount_loans_over_time <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
+  group_by(`Fiscal Year`)|>
+  summarize(Yearly_Sum = sum(Amount))|>
+  arrange(Yearly_Sum)
+
+
+number_and_amount <- number_loans_overtime|>
+  left_join(amount_loans_over_time, by = "Fiscal Year")
 ```
