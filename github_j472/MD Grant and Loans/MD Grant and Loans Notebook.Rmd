@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+This is the Maryland Grant and Loans Deliverable Notebook
+
+**Loaded Libraries**
+
+```{r}
+library(readr)
+library(tidyverse)
+library(tidytext)
+library(rvest)
+library(janitor)
+library(lubridate)
+library(tidyverse)
+library(tidycensus)
+library(tigris)
+```
+
+**Loading Data**
+
+```{r}
+State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- read_csv("~/JOUR472_fall2023/github_j472/MD Grant and Loans/State_of_Maryland_Grant_and_Loan_Data__FY2009_to_FY2022.csv")
+View(State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022)
+```
+
+**What is the sum total each year of grants and loans?**
+
+The time frame includes data from 2009 to 2022. One time frame limitation would be not including this year's information, but that would make sense since the year is not over yet. Everything from the data set is included in the results below. I did not run into any issues of finding the sum for each year. What is shown below is not in order of years, but ordered by the highest amount of money granted or loaned.
+
+```{r}
+
+State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |> clean_names()|>
+  group_by(fiscal_year) |>
+  summarize(yearly_sum = sum(amount))|>
+  arrange(desc(yearly_sum))
+
+```
+
+**Counties**
+
+```{r}
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2009, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2010, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2011, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2012, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2013, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2014, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2015, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2016, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2017, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2018, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2019, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2020, state = 'MD')
+
+county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2021, state = 'MD')
+```
+
+**Zipcode**
+
+```{r}
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2011, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2012, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2013, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2014, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2015, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2016, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2017, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2018, state = 'MD')
+
+zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2019, state = 'MD')
+
+```
+
+**2. What zip codes or counties receive the most grants from the state of Maryland and why?**
+
+This chart below shows how much money was given to each zip code and why. Why is explained by the grantor and the description. Zip code 21202 in 2020 received the most amount of money in Maryland. Originally we wanted to map about this chart and add census data to make it more comprehendable in the map for the reader, but I ran into some problems loading the data from 2009-2010 and 2020-2022. The API Key was not working so I decided to continue to use this normal chart simply create a chart showing all the zip codes. It was also a plan to match the zip codes to their county but the API Key for county and the datawrapper was working properly (the site kept 'not responding' and when I would visualize it my data would disappear), so I decided to keep the chart inside r studio and display it as best as I could. All the information shown below is the data in the State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022
+
+```{r}
+
+zipcode_most_and_why <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
+  group_by(`Zip Code`, `Fiscal Year`, Amount, Grantor, Description)|>
+  tally(sort=TRUE) |>
+  arrange(desc(Amount))
+
+zipcode_most_and_why
+```
