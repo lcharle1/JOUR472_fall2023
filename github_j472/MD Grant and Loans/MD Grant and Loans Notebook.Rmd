@@ -28,6 +28,16 @@ State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- read_csv("~/JOUR472_fa
 View(State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022)
 ```
 
+**Cleaning**
+
+Convert the 9 digit zipcodes to 5 digit zipcodes
+
+```{r}
+State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |>
+    filter(str_length(`Zip Code`) <= 5) 
+
+```
+
 **What is the sum total each year of grants and loans?**
 
 The time frame includes data from 2009 to 2022. One time frame limitation would be not including this year's information, but that would make sense since the year is not over yet. Everything from the data set is included in the results below. I did not run into any issues of finding the sum for each year. What is shown below is not in order of years, but ordered by the highest amount of money granted or loaned.
@@ -103,10 +113,16 @@ This chart below shows how much money was given to each zip code and why. Why is
 
 zipcode_most_and_why <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
   group_by(`Zip Code`, `Fiscal Year`, Amount, Grantor, Description)|>
+  filter(str_length(`Zip Code`) <= 5) |> 
   tally(sort=TRUE) |>
   arrange(desc(Amount))
 
-zipcode_most_and_why
+
+
+
+
+
+#zipcode_most_and_why$Zip Code <- substr(zipcode_most_and_why$Zip Code, 1,5)
 
 
 ```
