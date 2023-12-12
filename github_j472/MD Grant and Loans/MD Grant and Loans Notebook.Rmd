@@ -24,17 +24,23 @@ library(tigris)
 **Loading Data**
 
 ```{r}
-State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- read_csv("~/JOUR472_fall2023/github_j472/MD Grant and Loans/State_of_Maryland_Grant_and_Loan_Data__FY2009_to_FY2022.csv")
+State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- read_csv("~/JOUR472_fall2023/github_j472/MD Grant and Loans/State_of_Maryland_Grant_and_Loan_Data__FY2009_to_FY2022.csv")|>
+  clean_names()
+
+
 View(State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022)
 ```
 
 **Cleaning**
 
-Convert the 9 digit zipcodes to 5 digit zipcodes
+The code below will clean the data and filter all of the 9 digit zip codes to become 5 digit zip codes.
 
 ```{r}
 State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |>
-    filter(str_length(`Zip Code`) <= 5) 
+    clean_names()|>
+    filter(str_length(zip_code) <= 5) 
+
+
 
 ```
 
@@ -51,97 +57,55 @@ State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |> clean_names()|>
 
 ```
 
-**Counties**
-
-```{r}
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2009, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2010, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2011, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2012, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2013, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2014, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2015, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2016, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2017, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2018, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2019, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2020, state = 'MD')
-
-county_grant_and_loan <- get_acs(geography = 'COUNTY', variable ='B01002_001', year= 2021, state = 'MD')
-```
-
-**Zipcode**
-
-```{r}
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2011, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2012, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2013, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2014, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2015, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2016, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2017, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2018, state = 'MD')
-
-zip_code_grant_and_loan <- get_acs(geography = 'zcta', variable ='B01001A_001', year= 2019, state = 'MD')
-
-```
-
 **2. What zip codes or counties receive the most grants from the state of Maryland and why?**
 
-This chart below shows how much money was given to each zip code and why. Why is explained by the grantor and the description. Zip code 21202 in 2020 received the most amount of money in Maryland. Originally we wanted to map about this chart and add census data to make it more comprehendable in the map for the reader, but I ran into some problems loading the data from 2009-2010 and 2020-2022. The API Key was not working so I decided to continue to use this normal chart simply create a chart showing all the zip codes. It was also a plan to match the zip codes to their county but the API Key for county and the datawrapper was working properly (the site kept 'not responding' and when I would visualize it my data would disappear), so I decided to keep the chart inside r studio and display it as best as I could. All the information shown below is the data in the State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022
+This chart below shows how much money was given to each zip code and why. Why is explained by the grantor and the description. Zip code 21202 in 2020 received the most amount of money in Maryland. Originally we wanted to map about this chart and add census data to make it more comprehensible in the map for the reader, but I ran into some problems loading the data from 2009-2010 and 2020-2022. The API Key was not working so I decided to continue to use this normal chart simply create a chart showing all the zip codes. It was also a plan to match the zip codes to their county but the API Key for county and the datawrapper was working properly (the site kept 'not responding' and when I would visualize it my data would disappear), so I decided to keep the chart inside r studio and display it as best as I could. All the information shown below is the data in the State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022
 
 ```{r}
 
 zipcode_most_and_why <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
-  group_by(`Zip Code`, `Fiscal Year`, Amount, Grantor, Description)|>
-  filter(str_length(`Zip Code`) <= 5) |> 
+  group_by(zip_code, fiscal_year, amount, grantor, description)|>
+  filter(str_length(zip_code) <= 5) |> 
   tally(sort=TRUE) |>
-  arrange(desc(Amount))
+  arrange(desc(amount))
 
 
 
-
-
-
-#zipcode_most_and_why$Zip Code <- substr(zipcode_most_and_why$Zip Code, 1,5)
-
+view(zipcode_most_and_why)
 
 ```
 
 **3.How has the amount of grants and loans handed out changed over time?**
 
+This is the link to the line chart describing the amount of money Maryland granted or loaned to organizations across the years 2009 to 2022: <https://datawrapper.dwcdn.net/Ic9e1/1/>. There is a bit of back and forth between 2009 to 2011, then a spike in 2012. Between 2012 to 2016, there is a significant decrease in 2014, but afterwards it gradually increases. After a small decrease in 2019, there is an exponential increase in 2020. This could have been because of the pandemic. Since then, in 2021 and 2022, there has been a decrease in granted and loaned money.
+
+This is the link to the line chart describing the sum of ever grant or loan Maryland has provided from 2009 to 2022: <https://datawrapper.dwcdn.net/9lXQ2/1/>. After 2010 there is a gradual increase until 2013. Since then, there is a strong up and down difference before plateauing a little from 2017 to 2019, before sky rocketing in 2020, similarly to the numbers given line chart. But compared to the numbers given chart, there was also a decrease in 2021 but in 2022 it rose.
+
 ```{r}
 
 
 number_loans_overtime <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022 |>
-  group_by(`Fiscal Year`)|>
-  summarize(Number_Given = n())
+  clean_names()|>
+  group_by(fiscal_year)|>
+  summarize(number_given = n())
 
 amount_loans_over_time <- State_of_Maryland_Grant_and_Loan_Data_FY2009_to_FY2022|>
-  group_by(`Fiscal Year`)|>
-  summarize(Yearly_Sum = sum(Amount))|>
-  arrange(Yearly_Sum)
+  clean_names()|>
+  group_by(fiscal_year)|>
+  summarize(yearly_sum = sum(amount))|>
+  arrange(yearly_sum)
 
 
 number_and_amount <- number_loans_overtime|>
-  left_join(amount_loans_over_time, by = "Fiscal Year")
+  left_join(amount_loans_over_time, by = "fiscal_year")
+
+view(number_and_amount)
+```
+
+**4.Creating a Line Chart**
+
+This is the code to create a chart for the number_and_amount data.
+
+```{r}
+write.csv(number_and_amount, file = "number_and_amount.csv")
 ```
