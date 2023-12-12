@@ -49,7 +49,7 @@ childcare_with_counties <- md_counties |> inner_join(childcare_inspections, by =
 
 ```
 
-##### A1: A new chart has been created by inner_join() via GEOID and fips. Now the childcare inspections data can be mapped. 
+##### A1: A new chart has been created by inner_join() via GEOID and fips. Now the childcare inspections data can be mapped.
 
 ------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ childcare_with_counties|>
 
 ```
 
-##### **A2: Montgomery has the most percent of overdue childcare inspections. Which warrants more investigation considering it is a wealthy county with a decent government.** 
+##### **A2: Montgomery has the most percent of overdue childcare inspections. Which warrants more investigation considering it is a wealthy county with a decent government.**
 
 ------------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ childcare_with_pop <- childcare_with_pop |>
 childcare_with_pop
 ```
 
-##### **A3:   Garrett County has the highest rate.** 
+##### **A3: Garrett County has the highest rate.**
 
 ------------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ childcare_with_pop
   
 ```
 
-##### **A4**: More rural counties are in higher need for more facilities. Counties like Garrett or Anne Arundel. 
+##### **A4**: More rural counties are in higher need for more facilities. Counties like Garrett or Anne Arundel. On the map these counties are shown as lighter in color. 
 
 ------------------------------------------------------------------------
 
@@ -161,6 +161,6 @@ childcare_income |>
 cor.test(childcare_income$median_income, childcare_income$rate)
 ```
 
-##### A5: I don't think there is any correlation because the correlation test shows the p-value to be 0.6 which means the data is not significant. As shown in the scatter plot, the data is all over there place with no trend or pattern.  
+##### A5: I don't think there is any correlation because the correlation test shows the p-value to be 0.6 which means the data is not significant. As shown in the scatter plot, the data is all over there place with no trend or pattern.
 
 ------------------------------------------------------------------------
